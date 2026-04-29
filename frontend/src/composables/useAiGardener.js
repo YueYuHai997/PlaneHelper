@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-const apiBase = (import.meta.env.VITE_API_BASE || 'http://localhost:3001').replace(/\/$/, '')
+const apiBase = (import.meta.env.VITE_API_BASE || '').replace(/\/$/, '')
 const defaultModel = 'doubao-1-5-vision-lite-250315'
 
 function createWelcomeMessage() {

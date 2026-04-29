@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 
-const apiBase = (import.meta.env.VITE_API_BASE || 'http://localhost:3001').replace(/\/$/, '')
+const apiBase = (import.meta.env.VITE_API_BASE || '').replace(/\/$/, '')
 
 const plants = ref([])
 const tasks = ref([])

@@ -27,7 +27,7 @@ describe('useAiGardener', () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1)
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://localhost:3001/api/ai/chat',
+      '/api/ai/chat',
       expect.objectContaining({
         method: 'POST',
       }),
