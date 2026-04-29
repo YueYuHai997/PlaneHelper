@@ -1,0 +1,1067 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g50:#EAF3DE;--g100:#C0DD97;--g200:#97C459;--g400:#639922;--g600:#3B6D11;--g800:#27500A;--g900:#173404;
+  --t50:#E1F5EE;--t100:#9FE1CB;--t400:#1D9E75;--t600:#0F6E56;
+  --a50:#FAEEDA;--a100:#FAC775;--a400:#BA7517;--a600:#854F0B;
+  --gr50:#F1EFE8;--gr100:#D3D1C7;--gr400:#888780;--gr600:#5F5E5A;--gr800:#444441;
+  --b50:#E6F1FB;--b400:#378ADD;--b600:#185FA5;
+  --r50:#FCEBEB;--r400:#E24B4A;
+  --sky-blue:#e8f4fd;--winter:#dce8f5;--spring:#eaf3de;--summer:#fff8e1;--autumn:#fdf0e0;
+}
+body{font-family:'Noto Sans SC',sans-serif;background:#f5f8f0;color:#2a3520;min-height:100vh;overflow-x:hidden}
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:210px;min-width:210px;background:var(--g900);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.logo{padding:24px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo-mark{font-size:22px;margin-bottom:6px}
+.logo-name{font-size:17px;font-weight:600;color:var(--g50);letter-spacing:2px;font-family:serif}
+.logo-sub{font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;letter-spacing:1px}
+.nav{padding:12px 0;flex:1}
+.nav-sect{padding:10px 20px 4px;font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;color:rgba(255,255,255,0.55);cursor:pointer;transition:all .18s;border-left:2px solid transparent;position:relative}
+.nav-item:hover{color:white;background:rgba(255,255,255,0.05)}
+.nav-item.active{color:var(--g100);background:rgba(255,255,255,0.08);border-left-color:var(--g200)}
+.nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{background:var(--r400);color:white;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:auto}
+.sidebar-bottom{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.07);font-size:10px;color:rgba(255,255,255,0.2)}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.topbar{background:white;border-bottom:1px solid #e5edd8;padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;flex-shrink:0}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-title{font-size:15px;font-weight:500;color:#2a3520}
+.topbar-date{font-size:11px;color:var(--gr400);margin-top:1px}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.btn{border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-family:inherit;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px}
+.btn-primary{background:var(--g600);color:white}.btn-primary:hover{background:var(--g800)}
+.btn-ghost{background:transparent;color:var(--g600);border:1px solid var(--g100)}.btn-ghost:hover{background:var(--g50)}
+.btn-sm{padding:5px 10px;font-size:11px;border-radius:6px}
+
+.content{padding:24px 28px;overflow-y:auto;flex:1}
+.page{display:none}.page.active{display:block}
+
+/* CARDS */
+.card{background:white;border-radius:14px;border:1px solid #e5edd8;overflow:hidden;margin-bottom:18px}
+.card-hd{padding:16px 20px 12px;border-bottom:1px solid #f0f5e8;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:500;color:#2a3520}
+.card-bd{padding:16px 20px}
+
+/* OVERVIEW */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:white;border-radius:12px;border:1px solid #e5edd8;padding:16px 18px}
+.kpi-label{font-size:11px;color:var(--gr400);margin-bottom:6px}
+.kpi-val{font-size:26px;font-weight:300;color:#2a3520;line-height:1}
+.kpi-unit{font-size:12px;color:var(--gr400)}
+.kpi-sub{font-size:11px;margin-top:6px;color:var(--g400)}
+
+/* PLANT CARDS */
+.plant-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pc{background:white;border-radius:14px;border:1px solid #e5edd8;overflow:hidden;cursor:pointer;transition:all .2s}
+.pc:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.08)}
+.pc-photo{width:100%;height:150px;object-fit:cover;display:block;background:var(--g50);position:relative}
+.pc-photo-wrap{position:relative;height:150px;overflow:hidden}
+.pc-photo-img{width:100%;height:100%;object-fit:cover}
+.pc-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,var(--g50),var(--t50))}
+.pc-dot{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;border:2px solid white}
+.s-healthy{background:var(--g400)}.s-warning{background:var(--a400)}.s-danger{background:var(--r400)}
+.pc-info{padding:14px 16px}
+.pc-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.pc-species{font-size:11px;color:var(--gr400);margin-bottom:8px;font-style:italic}
+.pc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--g50);color:var(--g600)}
+.tag-amber{background:var(--a50);color:var(--a600)}
+.tag-teal{background:var(--t50);color:var(--t600)}
+.tag-blue{background:var(--b50);color:var(--b600)}
+
+/* COMBINED PAGE - tasks/log/calendar */
+.three-col{display:grid;grid-template-columns:280px 1fr 260px;gap:18px}
+
+/* TASKS */
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;background:#fafcf7;border:1px solid #eef3e6;margin-bottom:7px;transition:background .15s}
+.task-item:hover{background:var(--g50)}
+.task-check{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--g200);cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:10px}
+.task-check.done{background:var(--g400);border-color:var(--g400);color:white}
+.task-body{flex:1}
+.task-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.task-meta{font-size:10px;color:var(--gr400)}
+.task-done-text{text-decoration:line-through;opacity:.45}
+.add-task-inline{display:flex;gap:8px;margin-top:10px}
+.add-task-inline select,.add-task-inline input{border:1px solid #dde8cc;border-radius:7px;padding:6px 10px;font-size:11px;font-family:inherit;outline:none;background:white}
+.add-task-inline select:focus,.add-task-inline input:focus{border-color:var(--g400)}
+
+/* MINI CALENDAR */
+.mini-cal{font-size:11px}
+.mini-cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.mini-cal-nav{background:none;border:none;cursor:pointer;color:var(--gr400);font-size:14px;padding:2px 6px;border-radius:4px}
+.mini-cal-nav:hover{background:var(--g50)}
+.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mini-day-hd{text-align:center;color:var(--gr400);padding:3px 0;font-size:10px}
+.mini-day{text-align:center;padding:4px 2px;border-radius:5px;cursor:pointer;position:relative;min-height:26px}
+.mini-day:hover{background:var(--g50)}
+.mini-day.today{background:var(--g600);color:white;font-weight:500}
+.mini-day.other{color:var(--gr100)}
+.mini-day.has-task::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--g400)}
+.mini-day.today.has-task::after{background:var(--g100)}
+.mini-cal-label{font-size:12px;font-weight:500;color:#2a3520}
+
+/* LOG */
+.log-timeline{position:relative;padding-left:20px}
+.log-timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:0;width:1.5px;background:#e5edd8}
+.log-entry{position:relative;margin-bottom:18px}
+.log-dot{position:absolute;left:-18px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--g400);border:2px solid white;box-shadow:0 0 0 2px var(--g100)}
+.log-date{font-size:10px;color:var(--gr400);margin-bottom:3px}
+.log-text{font-size:12px;line-height:1.65;color:#2a3520}
+.log-imgs{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.log-thumb{width:56px;height:56px;border-radius:7px;object-fit:cover;border:1px solid #e5edd8;cursor:pointer}
+.log-thumb-placeholder{width:56px;height:56px;border-radius:7px;background:var(--g50);border:1px solid #e5edd8;display:flex;align-items:center;justify-content:center;font-size:24px}
+.log-add-form{background:var(--g50);border-radius:10px;padding:12px;margin-bottom:16px;border:1px dashed var(--g100)}
+.log-textarea{width:100%;border:1px solid #dde8cc;border-radius:7px;padding:9px 12px;font-size:12px;font-family:inherit;resize:vertical;min-height:65px;outline:none;background:white}
+.log-textarea:focus{border-color:var(--g400)}
+.log-form-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.log-plant-sel{border:1px solid #dde8cc;border-radius:6px;padding:4px 8px;font-size:11px;font-family:inherit;background:white;outline:none}
+
+/* AI BTN on log */
+.ai-jump-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 10px;border-radius:6px;background:var(--g800);color:white;border:none;cursor:pointer;transition:background .15s}
+.ai-jump-btn:hover{background:var(--g900)}
+
+/* PLANT DETAIL / ADVICE PAGE */
+.advice-tabs{display:flex;gap:0;border-bottom:1px solid #e5edd8;margin-bottom:18px}
+.advice-tab{padding:10px 18px;font-size:12px;color:var(--gr400);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px}
+.advice-tab.active{color:var(--g600);border-bottom-color:var(--g600)}
+.advice-panel{display:none}.advice-panel.active{display:block}
+
+/* SEASON BANNER */
+.season-banner{border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px}
+.season-icon{font-size:32px}
+.season-name{font-size:16px;font-weight:600;margin-bottom:3px}
+.season-desc{font-size:11px;opacity:.7}
+.s-spring{background:linear-gradient(120deg,#e8f5e9,#f1f8e9);color:#2e7d32}
+.s-summer{background:linear-gradient(120deg,#fff8e1,#fffde7);color:#e65100}
+.s-autumn{background:linear-gradient(120deg,#fff3e0,#fbe9e7);color:#bf360c}
+.s-winter{background:linear-gradient(120deg,#e3f2fd,#e8eaf6);color:#1565c0}
+
+/* CARE SLIDERS */
+.care-sliders{display:flex;flex-direction:column;gap:16px}
+.slider-row{background:#fafcf7;border:1px solid #eef3e6;border-radius:10px;padding:14px 16px}
+.slider-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.slider-label{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
+.slider-val{font-size:13px;color:var(--g600);font-weight:600}
+.slider-sub{font-size:11px;color:var(--gr400);margin-top:6px}
+.care-range{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:#e5edd8;outline:none;cursor:pointer}
+.care-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--g600);cursor:pointer;border:3px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.care-range::-webkit-slider-runnable-track{height:5px;border-radius:3px}
+
+/* AI SECTION in advice */
+.ai-section{background:#fafcf7;border:1px solid #eef3e6;border-radius:12px;padding:16px}
+.ai-section-title{font-size:12px;font-weight:500;color:var(--g800);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ai-content{font-size:12px;line-height:1.75;color:#2a3520}
+.ai-loading{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gr400)}
+.dot-pulse{display:inline-flex;gap:3px}
+.dot-pulse span{width:5px;height:5px;border-radius:50%;background:var(--g400);animation:dp 1.2s ease-in-out infinite}
+.dot-pulse span:nth-child(2){animation-delay:.2s}
+.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes dp{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* FAQ */
+.faq-item{border:1px solid #eef3e6;border-radius:9px;overflow:hidden;margin-bottom:8px}
+.faq-q{padding:11px 14px;font-size:12px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fafcf7;transition:background .15s}
+.faq-q:hover{background:var(--g50)}
+.faq-a{padding:10px 14px;font-size:12px;line-height:1.7;color:#444;display:none;border-top:1px solid #eef3e6}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-arrow{transition:transform .2s;font-size:10px;color:var(--gr400)}
+
+/* AI CHAT */
+.ai-chat{background:white;border-radius:14px;border:1px solid #e5edd8;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 120px);min-height:500px}
+.ai-header{padding:14px 18px;background:var(--g800);display:flex;align-items:center;gap:10px}
+.ai-avatar{width:34px;height:34px;border-radius:50%;background:var(--g400);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ai-name{color:white;font-size:13px;font-weight:500}
+.ai-status-txt{color:rgba(255,255,255,.5);font-size:10px}
+.ai-plant-selector{padding:10px 16px;border-bottom:1px solid #eef3e6;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ai-plant-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;border:1px solid #dde8cc;background:white;font-size:11px;cursor:pointer;transition:all .15s}
+.ai-plant-chip:hover{border-color:var(--g400);background:var(--g50)}
+.ai-plant-chip.selected{border-color:var(--g600);background:var(--g50);color:var(--g600);font-weight:500}
+.ai-plant-chip-img{width:18px;height:18px;border-radius:50%;object-fit:cover}
+.ai-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg-ai,.msg-user{max-width:82%}
+.msg-ai{align-self:flex-start}
+.msg-user{align-self:flex-end}
+.msg-bubble{padding:9px 13px;border-radius:13px;font-size:12px;line-height:1.65}
+.msg-ai .msg-bubble{background:#f0f7e6;color:#2a3520;border-radius:4px 13px 13px 13px}
+.msg-user .msg-bubble{background:var(--g600);color:white;border-radius:13px 13px 4px 13px}
+.msg-time{font-size:9px;color:var(--gr400);margin-top:3px}
+.msg-context{font-size:10px;color:var(--gr400);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.msg-img-preview{width:48px;height:48px;border-radius:7px;object-fit:cover;border:1px solid rgba(255,255,255,.3);margin-top:5px;display:block}
+.quick-qs{padding:8px 14px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #f0f5e8}
+.quick-q{font-size:10px;padding:4px 10px;border-radius:14px;background:var(--g50);color:var(--g600);border:1px solid var(--g100);cursor:pointer;transition:all .15s;white-space:nowrap}
+.quick-q:hover{background:var(--g100)}
+.ai-input-row{padding:10px 14px;border-top:1px solid #eef3e6;display:flex;gap:8px;align-items:center}
+.ai-input{flex:1;border:1px solid #dde8cc;border-radius:20px;padding:8px 14px;font-size:12px;font-family:inherit;outline:none;background:#fafcf7;transition:border-color .2s}
+.ai-input:focus{border-color:var(--g400)}
+.ai-send{width:34px;height:34px;border-radius:50%;background:var(--g600);border:none;color:white;font-size:14px;cursor:pointer;flex-shrink:0;transition:background .15s;display:flex;align-items:center;justify-content:center}
+.ai-send:hover{background:var(--g800)}
+.ai-send:disabled{background:var(--gr100);cursor:default}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.38);z-index:200;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:white;border-radius:16px;padding:24px;width:500px;max-width:93vw;max-height:85vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:500;margin-bottom:18px;color:#2a3520}
+.form-row{margin-bottom:14px}
+.form-label{display:block;font-size:11px;color:var(--gr600);margin-bottom:5px;font-weight:500}
+.form-ctrl{width:100%;padding:9px 13px;border:1px solid #dde8cc;border-radius:8px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s;background:white}
+.form-ctrl:focus{border-color:var(--g400)}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+
+/* PHOTO UPLOAD */
+.photo-upload{border:2px dashed #dde8cc;border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.photo-upload:hover{border-color:var(--g400);background:var(--g50)}
+.photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-preview{width:100%;height:130px;object-fit:cover;border-radius:8px;margin-top:10px;display:block}
+.photo-icon{font-size:28px;margin-bottom:8px}
+.photo-hint{font-size:12px;color:var(--gr400)}
+
+/* SEASON SELECTOR in form */
+.season-chips{display:flex;gap:6px;flex-wrap:wrap}
+.season-chip{padding:5px 12px;border-radius:20px;border:1px solid #dde8cc;font-size:11px;cursor:pointer;transition:all .15s}
+.season-chip.sel-spring{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32}
+.season-chip.sel-summer{background:#fff8e1;border-color:#ffd54f;color:#e65100}
+.season-chip.sel-autumn{background:#fff3e0;border-color:#ffb74d;color:#bf360c}
+.season-chip.sel-winter{background:#e3f2fd;border-color:#90caf9;color:#1565c0}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:#ccd9b0;border-radius:2px}
+::-webkit-scrollbar-track{background:transparent}
+
+.flex-row{display:flex;gap:10px;align-items:center}
+.divider{height:1px;background:#f0f5e8;margin:14px 0}
+.text-muted{font-size:11px;color:var(--gr400)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px}
+.badge-green{background:var(--g50);color:var(--g600)}
+.badge-amber{background:var(--a50);color:var(--a600)}
+.badge-red{background:var(--r50);color:var(--r400)}
+
+/* progress */
+.prog{height:4px;background:#e5edd8;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px;transition:width .4s}
+
+.empty-state{text-align:center;padding:36px 20px;color:var(--gr400)}
+.empty-icon{font-size:32px;margin-bottom:10px}
+.empty-txt{font-size:12px}
+
+/* lightbox */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:8px;object-fit:contain}
+</style>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">🌿</div>
+    <div class="logo-name">绿意</div>
+    <div class="logo-sub">植物养殖助手</div>
+  </div>
+  <div class="nav">
+    <div class="nav-sect">主要</div>
+    <div class="nav-item active" onclick="nav('overview')"><span class="nav-icon">◈</span>总览</div>
+    <div class="nav-item" onclick="nav('plants')"><span class="nav-icon">🌱</span>我的植物</div>
+    <div class="nav-sect">养护</div>
+    <div class="nav-item" onclick="nav('manage')"><span class="nav-icon">📋</span>养护管理<span class="nav-badge" id="task-badge">0</span></div>
+    <div class="nav-sect">助手</div>
+    <div class="nav-item" onclick="nav('ai')"><span class="nav-icon">✦</span>AI 园丁</div>
+  </div>
+  <div class="sidebar-bottom">v2.0 · Powered by AI</div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="page-title">总览</div>
+      <div class="topbar-date" id="top-date"></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" onclick="openAddPlant()">+ 添加植物</button>
+      <button class="btn btn-primary" onclick="nav('ai')">✦ AI 园丁</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="page active" id="page-overview">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">植物总数</div><div class="kpi-val" id="kpi-total">0<span class="kpi-unit">株</span></div><div class="kpi-sub">点击查看</div></div>
+      <div class="kpi"><div class="kpi-label">今日任务</div><div class="kpi-val" id="kpi-tasks">0<span class="kpi-unit">项</span></div><div class="kpi-sub" id="kpi-done">已完成 0 项</div></div>
+      <div class="kpi"><div class="kpi-label">健康状态</div><div class="kpi-val" id="kpi-health">0<span class="kpi-unit">株</span></div><div class="kpi-sub">状态良好</div></div>
+      <div class="kpi"><div class="kpi-label">当前季节</div><div class="kpi-val" id="kpi-season" style="font-size:20px"></div><div class="kpi-sub" id="kpi-season-name"></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="card"><div class="card-hd"><span class="card-title">今日养护</span><button class="btn btn-ghost btn-sm" onclick="nav('manage')">全部</button></div><div class="card-bd" id="ov-tasks"></div></div>
+      <div class="card"><div class="card-hd"><span class="card-title">植物状态</span></div><div class="card-bd" id="ov-health"></div></div>
+    </div>
+    <div class="card" style="margin-top:18px"><div class="card-hd"><span class="card-title">最近动态</span></div><div class="card-bd"><div class="log-timeline" id="ov-log"></div></div></div>
+  </div>
+
+  <!-- PLANTS -->
+  <div class="page" id="page-plants">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <div style="font-size:13px;color:var(--gr400)">共 <span id="plant-count">0</span> 株植物</div>
+      <button class="btn btn-primary" onclick="openAddPlant()">+ 添加植物</button>
+    </div>
+    <div class="plant-grid" id="plant-grid"></div>
+  </div>
+
+  <!-- MANAGE (tasks + log + calendar combined) -->
+  <div class="page" id="page-manage">
+    <div class="three-col">
+      <!-- LEFT: tasks -->
+      <div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title">💧 今日任务</span><button class="btn btn-ghost btn-sm" onclick="openAddTask()">+</button></div>
+          <div class="card-bd">
+            <div id="task-today-list"></div>
+            <div style="margin-top:12px;font-size:12px;font-weight:500;color:#2a3520;margin-bottom:8px">本周计划</div>
+            <div id="task-week-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: log -->
+      <div>
+        <div class="card">
+          <div class="card-hd">
+            <span class="card-title">📖 生长日志</span>
+            <div style="display:flex;gap:6px;align-items:center">
+              <select class="log-plant-sel" id="log-filter" onchange="renderLog()" style="font-size:11px">
+                <option value="all">全部植物</option>
+              </select>
+              <button class="ai-jump-btn" onclick="jumpToAI()" title="携带植物信息问问AI">✦ 问问AI</button>
+            </div>
+          </div>
+          <div class="card-bd">
+            <div class="log-add-form">
+              <div style="font-size:11px;font-weight:500;color:var(--g800);margin-bottom:8px">📝 记录今日观察</div>
+              <textarea class="log-textarea" id="log-text" placeholder="记录植物状态、变化、发现..."></textarea>
+              <div class="log-form-row">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <select class="log-plant-sel" id="log-plant-sel"></select>
+                  <label style="font-size:11px;color:var(--g600);cursor:pointer;display:flex;align-items:center;gap:4px">
+                    📷 <span>图片</span>
+                    <input type="file" accept="image/*" id="log-img-input" style="display:none" onchange="handleLogImg(event)">
+                  </label>
+                  <span id="log-img-name" style="font-size:10px;color:var(--gr400)"></span>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="addLog()">记录</button>
+              </div>
+            </div>
+            <div class="log-timeline" id="log-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: mini calendar -->
+      <div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title">📅 日历规划</span></div>
+          <div class="card-bd">
+            <div class="mini-cal">
+              <div class="mini-cal-hd">
+                <button class="mini-cal-nav" onclick="calNav(-1)">‹</button>
+                <span class="mini-cal-label" id="mini-cal-label"></span>
+                <button class="mini-cal-nav" onclick="calNav(1)">›</button>
+              </div>
+              <div class="mini-cal-grid" id="mini-cal"></div>
+            </div>
+            <div class="divider"></div>
+            <div style="font-size:11px;font-weight:500;margin-bottom:8px" id="cal-selected-date-label"></div>
+            <div id="cal-day-tasks"></div>
+          </div>
+        </div>
+        <!-- Season tips -->
+        <div class="card" id="season-tip-card"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="page" id="page-ai">
+    <div class="ai-chat">
+      <div class="ai-header">
+        <div class="ai-avatar">🌿</div>
+        <div>
+          <div class="ai-name">绿意 AI 园丁</div>
+          <div class="ai-status-txt">● 在线 · Claude AI 驱动</div>
+        </div>
+      </div>
+      <div class="ai-plant-selector" id="ai-plant-selector">
+        <span style="font-size:10px;color:var(--gr400);margin-right:2px">快速选择植物：</span>
+      </div>
+      <div class="quick-qs">
+        <div class="quick-q" onclick="quickQ('叶子发黄是什么原因？')">🍂 叶子发黄</div>
+        <div class="quick-q" onclick="quickQ('怎么判断什么时候需要浇水？')">💧 浇水时机</div>
+        <div class="quick-q" onclick="quickQ('如何正确施肥？')">🌿 施肥方法</div>
+        <div class="quick-q" onclick="quickQ('换盆需要注意什么？')">🪴 换盆技巧</div>
+        <div class="quick-q" onclick="quickQ('如何防治病虫害？')">🐛 病虫防治</div>
+      </div>
+      <div class="ai-messages" id="ai-msgs">
+        <div class="msg-ai"><div class="msg-bubble">你好！我是你的 AI 园丁 🌱 可以选择上方的植物，我会结合它的状态给你专属建议。有什么问题尽管问！</div><div class="msg-time">刚刚</div></div>
+      </div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="ai-input" placeholder="问问 AI 园丁..." onkeydown="if(event.key==='Enter')sendAI()">
+        <button class="ai-send" id="ai-send" onclick="sendAI()">↑</button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ADD PLANT MODAL -->
+<div class="overlay" id="modal-plant">
+<div class="modal">
+  <div class="modal-title">🌱 添加新植物</div>
+  <div class="form-row">
+    <label class="form-label">植物照片</label>
+    <div class="photo-upload" id="photo-drop" onclick="document.getElementById('plant-photo-input').click()">
+      <input type="file" accept="image/*" id="plant-photo-input" style="display:none" onchange="handlePlantPhoto(event)">
+      <div id="photo-drop-content">
+        <div class="photo-icon">📷</div>
+        <div class="photo-hint">点击上传真实照片</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-2col">
+    <div><label class="form-label">植物名称 *</label><input class="form-ctrl" id="np-name" placeholder="如：番茄"></div>
+    <div><label class="form-label">品种/学名</label><input class="form-ctrl" id="np-species" placeholder="如：Solanum lycopersicum"></div>
+  </div>
+  <div class="form-2col">
+    <div><label class="form-label">种植日期</label><input class="form-ctrl" id="np-date" type="date"></div>
+    <div><label class="form-label">健康状态</label>
+      <select class="form-ctrl" id="np-status">
+        <option value="healthy">✅ 状态良好</option>
+        <option value="warning">⚠️ 需要注意</option>
+        <option value="danger">❗ 状态异常</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row"><label class="form-label">备注</label><textarea class="form-ctrl" id="np-note" style="height:60px;resize:vertical" placeholder="种植位置、特别注意..."></textarea></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="closeModal('modal-plant')">取消</button>
+    <button class="btn btn-primary" onclick="submitPlant()">添加植物</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD TASK MODAL -->
+<div class="overlay" id="modal-task">
+<div class="modal">
+  <div class="modal-title">📋 添加养护任务</div>
+  <div class="form-2col">
+    <div><label class="form-label">任务类型</label>
+      <select class="form-ctrl" id="nt-type">
+        <option value="water">💧 浇水</option>
+        <option value="fertilize">🌿 施肥</option>
+        <option value="prune">✂️ 修剪</option>
+        <option value="repot">🪴 换盆</option>
+        <option value="spray">💨 喷水/换水</option>
+        <option value="check">🔍 检查</option>
+      </select>
+    </div>
+    <div><label class="form-label">植物</label><select class="form-ctrl" id="nt-plant"></select></div>
+  </div>
+  <div class="form-2col">
+    <div><label class="form-label">日期</label><input class="form-ctrl" id="nt-date" type="date"></div>
+    <div><label class="form-label">备注</label><input class="form-ctrl" id="nt-note" placeholder="说明..."></div>
+  </div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="closeModal('modal-task')">取消</button>
+    <button class="btn btn-primary" onclick="submitTask()">添加任务</button>
+  </div>
+</div>
+</div>
+
+<!-- PLANT DETAIL MODAL (with advice tabs) -->
+<div class="overlay" id="modal-detail">
+<div class="modal" style="width:620px;max-width:95vw">
+  <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:18px">
+    <div id="detail-photo-wrap" style="width:90px;height:90px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--g50);display:flex;align-items:center;justify-content:center"></div>
+    <div style="flex:1">
+      <div style="font-size:18px;font-weight:600" id="detail-name"></div>
+      <div style="font-size:12px;color:var(--gr400);font-style:italic;margin-top:2px" id="detail-species"></div>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap" id="detail-badges"></div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-detail')">✕</button>
+  </div>
+  <div class="advice-tabs">
+    <div class="advice-tab active" onclick="switchTab(this,'tab-advice')">🌿 种植建议</div>
+    <div class="advice-tab" onclick="switchTab(this,'tab-faq')">❓ 常见问题</div>
+    <div class="advice-tab" onclick="switchTab(this,'tab-schedule')">📅 养护计划</div>
+    <div class="advice-tab" onclick="switchTab(this,'tab-log')">📖 生长记录</div>
+  </div>
+  <div id="tab-advice" class="advice-panel active">
+    <div class="ai-section"><div class="ai-section-title">✦ AI 种植建议</div><div class="ai-content" id="advice-content"><div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>AI 正在分析...</div></div></div>
+  </div>
+  <div id="tab-faq" class="advice-panel">
+    <div id="faq-list"></div>
+  </div>
+  <div id="tab-schedule" class="advice-panel">
+    <div id="season-banner-detail"></div>
+    <div class="care-sliders" id="care-sliders"></div>
+    <div class="divider"></div>
+    <div class="ai-section" style="margin-top:0"><div class="ai-section-title">✦ AI 季节养护建议</div><div class="ai-content" id="schedule-ai-content"><div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>正在生成...</div></div></div>
+  </div>
+  <div id="tab-log" class="advice-panel">
+    <div class="log-timeline" id="detail-log-list"></div>
+  </div>
+</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+const TODAY = new Date();
+const todayStr = TODAY.toISOString().split('T')[0];
+let calY = TODAY.getFullYear(), calM = TODAY.getMonth();
+let selectedCalDate = todayStr;
+let newPlantPhoto = null;
+let logImgData = null, logImgName = '';
+let currentDetailPlantId = null;
+let aiContextPlant = null;
+let aiContextImgs = [];
+
+// Seasons
+function getSeason() {
+  const m = TODAY.getMonth();
+  if(m>=2&&m<=4) return{name:'春季',icon:'🌸',cls:'s-spring',color:'#2e7d32'};
+  if(m>=5&&m<=7) return{name:'夏季',icon:'☀️',cls:'s-summer',color:'#e65100'};
+  if(m>=8&&m<=10) return{name:'秋季',icon:'🍂',cls:'s-autumn',color:'#bf360c'};
+  return{name:'冬季',icon:'❄️',cls:'s-winter',color:'#1565c0'};
+}
+const SEASON = getSeason();
+
+// DATA
+let plants = [
+  {id:1,name:'圣女果',species:'Solanum lycopersicum',photo:null,date:'2025-03-10',status:'healthy',note:'阳台，需充足日照',tags:['蔬果','需日照'],schedules:{water:3,fertilize:14,prune:30,repot:365}},
+  {id:2,name:'薄荷',species:'Mentha spicata',photo:null,date:'2025-02-20',status:'healthy',note:'厨房窗台',tags:['香草','喜湿'],schedules:{water:2,fertilize:21,prune:14,repot:180}},
+  {id:3,name:'绿萝',species:'Epipremnum aureum',photo:null,date:'2024-11-05',status:'warning',note:'室内，注意黄叶',tags:['室内','耐阴'],schedules:{water:7,fertilize:30,prune:30,repot:365}},
+  {id:4,name:'辣椒',species:'Capsicum annuum',photo:null,date:'2025-04-01',status:'healthy',note:'新种',tags:['蔬果'],schedules:{water:3,fertilize:14,prune:60,repot:180}},
+];
+let tasks = [
+  {id:1,type:'water',plant:1,date:todayStr,done:false,note:'深度浇水'},
+  {id:2,type:'fertilize',plant:2,date:todayStr,done:false,note:'液肥稀释'},
+  {id:3,type:'prune',plant:3,date:todayStr,done:false,note:'修剪黄叶'},
+  {id:4,type:'water',plant:4,date:todayStr,done:true,note:''},
+  {id:5,type:'repot',plant:3,date:offsetDate(3),done:false,note:'换大盆'},
+  {id:6,type:'spray',plant:2,date:offsetDate(1),done:false,note:''},
+  {id:7,type:'fertilize',plant:1,date:offsetDate(2),done:false,note:'复合肥'},
+];
+let logs = [
+  {id:1,plant:1,date:'2025-04-27',text:'圣女果开花了！有12朵小花，长势很好，今天追肥。',imgs:[],emoji:'🍅'},
+  {id:2,plant:3,date:'2025-04-25',text:'绿萝发现3片叶子发黄，可能是浇水过多，减少频率观察。',imgs:[],emoji:'🪴'},
+  {id:3,plant:2,date:'2025-04-22',text:'薄荷长势旺盛，今天修剪顶芽，促进分枝，采了一把泡茶。',imgs:[],emoji:'🌿'},
+];
+
+const TM = {water:{icon:'💧',label:'浇水',cls:'dot-water'},fertilize:{icon:'🌿',label:'施肥',cls:'dot-fert'},prune:{icon:'✂️',label:'修剪',cls:'dot-prune'},repot:{icon:'🪴',label:'换盆',cls:'dot-prune'},spray:{icon:'💨',label:'喷水',cls:'dot-water'},check:{icon:'🔍',label:'检查',cls:'dot-prune'}};
+
+function offsetDate(n){const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]}
+function getPlant(id){return plants.find(p=>p.id==id)}
+function fmtDate(s){return s.replace(/-/g,'/')}
+
+// NAV
+const PAGE_TITLES={overview:'总览',plants:'我的植物',manage:'养护管理',ai:'AI 园丁'};
+function nav(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const items=document.querySelectorAll('.nav-item');
+  const idx=['overview','plants','manage','ai'].indexOf(name);
+  if(idx>=0) items[idx].classList.add('active');
+  document.getElementById('page-title').textContent=PAGE_TITLES[name]||name;
+  if(name==='overview')renderOverview();
+  if(name==='plants')renderPlants();
+  if(name==='manage'){renderTasks();renderLog();renderMiniCal();renderSeasonTip()}
+  if(name==='ai')renderAIPlantSelector();
+}
+
+// TOPBAR DATE
+document.getElementById('top-date').textContent=TODAY.toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+
+// OVERVIEW
+function renderOverview(){
+  const todayTasks=tasks.filter(t=>t.date===todayStr);
+  const done=todayTasks.filter(t=>t.done).length;
+  document.getElementById('kpi-total').innerHTML=plants.length+'<span class="kpi-unit">株</span>';
+  document.getElementById('kpi-tasks').innerHTML=todayTasks.length+'<span class="kpi-unit">项</span>';
+  document.getElementById('kpi-done').textContent='已完成 '+done+' 项';
+  document.getElementById('kpi-health').innerHTML=plants.filter(p=>p.status==='healthy').length+'<span class="kpi-unit">株</span>';
+  document.getElementById('kpi-season').textContent=SEASON.icon;
+  document.getElementById('kpi-season-name').textContent=SEASON.name;
+  // tasks
+  document.getElementById('ov-tasks').innerHTML=todayTasks.slice(0,4).map(taskHTML).join('')||'<div class="empty-state"><div class="empty-icon">✓</div><div class="empty-txt">今日无任务</div></div>';
+  // health
+  document.getElementById('ov-health').innerHTML=plants.map(p=>{
+    const pct=p.status==='healthy'?85:p.status==='warning'?50:25;
+    const c=p.status==='healthy'?'var(--g400)':p.status==='warning'?'var(--a400)':'var(--r400)';
+    return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="width:36px;height:36px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--g50);display:flex;align-items:center;justify-content:center">${plantPhotoEl(p,32)}</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:500;margin-bottom:4px">${p.name}</div><div class="prog"><div class="prog-fill" style="width:${pct}%;background:${c}"></div></div></div>
+      <span class="badge ${p.status==='healthy'?'badge-green':p.status==='warning'?'badge-amber':'badge-red'}">${p.status==='healthy'?'良好':p.status==='warning'?'注意':'异常'}</span>
+    </div>`;
+  }).join('');
+  // log
+  document.getElementById('ov-log').innerHTML=logs.slice(0,3).map(l=>{
+    const pl=getPlant(l.plant);
+    return`<div class="log-entry"><div class="log-dot"></div><div class="log-date">${l.date} · ${pl?pl.name:''}</div><div class="log-text">${l.text.substring(0,80)}${l.text.length>80?'...':''}</div></div>`;
+  }).join('');
+  updateBadge();
+}
+
+function plantPhotoEl(p,size){
+  if(p.photo) return`<img src="${p.photo}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:6px">`;
+  const emojis={1:'🍅',2:'🌿',3:'🪴',4:'🌶️'};
+  return`<span style="font-size:${Math.round(size*0.6)}px">${emojis[p.id]||'🌱'}</span>`;
+}
+
+// PLANTS
+function renderPlants(){
+  document.getElementById('plant-count').textContent=plants.length;
+  document.getElementById('plant-grid').innerHTML=plants.map(p=>`
+    <div class="pc" onclick="openDetail(${p.id})">
+      <div class="pc-photo-wrap">
+        ${p.photo?`<img class="pc-photo-img" src="${p.photo}" alt="${p.name}">`:`<div class="pc-photo-placeholder">${plantEmoji(p)}</div>`}
+        <div class="pc-dot s-${p.status}"></div>
+      </div>
+      <div class="pc-info">
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-species">${p.species||'未填写品种'}</div>
+        <div style="font-size:10px;color:var(--gr400);margin-bottom:7px">🗓 ${p.date}</div>
+        <div class="pc-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}<span class="tag ${p.status==='warning'?'tag-amber':p.status==='danger'?'':''}}" style="${p.status==='danger'?'background:var(--r50);color:var(--r400);':''}">${p.status==='healthy'?'健康':p.status==='warning'?'⚠注意':'❗异常'}</span></div>
+      </div>
+    </div>`).join('')||'<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🌱</div><div class="empty-txt">还没有植物，点击添加</div></div>';
+}
+
+function plantEmoji(p){const m={1:'🍅',2:'🌿',3:'🪴',4:'🌶️'};return m[p.id]||'🌱'}
+
+// TASKS
+function updateBadge(){
+  const n=tasks.filter(t=>t.date===todayStr&&!t.done).length;
+  document.getElementById('task-badge').textContent=n;
+}
+function taskHTML(t){
+  const m=TM[t.type],pl=getPlant(t.plant);
+  return`<div class="task-item">
+    <div class="task-check${t.done?' done':''}" onclick="toggleTask(${t.id})">${t.done?'✓':''}</div>
+    <div class="task-body">
+      <div class="task-title ${t.done?'task-done-text':''}">${m.icon} ${m.label}${t.note?' · '+t.note:''}</div>
+      <div class="task-meta">${pl?plantEmoji(pl)+' '+pl.name:'未指定'} · ${t.date===todayStr?'今日':fmtDate(t.date)}</div>
+    </div>
+  </div>`;
+}
+function renderTasks(){
+  const today_=tasks.filter(t=>t.date===todayStr);
+  const week=tasks.filter(t=>t.date!==todayStr).sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('task-today-list').innerHTML=today_.map(taskHTML).join('')||'<div class="empty-state"><div class="empty-icon" style="font-size:22px">✓</div><div class="empty-txt">今日无任务</div></div>';
+  document.getElementById('task-week-list').innerHTML=week.slice(0,5).map(taskHTML).join('')||'<div class="empty-state"><div class="empty-icon" style="font-size:22px">📅</div><div class="empty-txt">暂无后续任务</div></div>';
+  updateBadge();
+}
+function toggleTask(id){const t=tasks.find(t=>t.id==id);if(t){t.done=!t.done;renderTasks();renderOverview()}}
+
+// LOG
+function populateLogSelects(){
+  const opts=plants.map(p=>`<option value="${p.id}">${plantEmoji(p)} ${p.name}</option>`).join('');
+  const allOpt='<option value="all">全部植物</option>';
+  const lf=document.getElementById('log-filter');
+  if(lf) lf.innerHTML=allOpt+plants.map(p=>`<option value="${p.id}">${plantEmoji(p)} ${p.name}</option>`).join('');
+  const ls=document.getElementById('log-plant-sel');
+  if(ls) ls.innerHTML=opts;
+}
+function renderLog(){
+  populateLogSelects();
+  const filter=document.getElementById('log-filter')?.value||'all';
+  const filtered=filter==='all'?logs:logs.filter(l=>l.plant==filter);
+  const ll=document.getElementById('log-list');
+  if(!ll)return;
+  ll.innerHTML=filtered.map(l=>{
+    const pl=getPlant(l.plant);
+    const imgs=l.imgs&&l.imgs.length?'<div class="log-imgs">'+l.imgs.map(i=>`<img class="log-thumb" src="${i}" onclick="openLightbox('${i}')">`).join('')+'</div>':'';
+    return`<div class="log-entry">
+      <div class="log-dot"></div>
+      <div class="log-date">${l.date} · ${pl?plantEmoji(pl)+' '+pl.name:''}</div>
+      <div class="log-text">${l.text}</div>${imgs}</div>`;
+  }).join('')||'<div class="empty-state"><div class="empty-icon">📖</div><div class="empty-txt">快来记录第一条</div></div>';
+}
+function handleLogImg(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{logImgData=ev.target.result;logImgName=f.name;
+    document.getElementById('log-img-name').textContent='✓ '+f.name.substring(0,12)};
+  r.readAsDataURL(f);
+}
+function addLog(){
+  const text=document.getElementById('log-text').value.trim();
+  const pId=parseInt(document.getElementById('log-plant-sel').value);
+  if(!text){alert('请输入内容');return}
+  const pl=getPlant(pId);
+  logs.unshift({id:Date.now(),plant:pId,date:todayStr,text,imgs:logImgData?[logImgData]:[],emoji:pl?plantEmoji(pl):'🌱'});
+  logImgData=null;logImgName='';
+  document.getElementById('log-text').value='';
+  document.getElementById('log-img-name').textContent='';
+  document.getElementById('log-img-input').value='';
+  renderLog();renderOverview();
+}
+
+// JUMP TO AI from log
+function jumpToAI(){
+  const filter=document.getElementById('log-filter')?.value;
+  if(filter&&filter!=='all'){
+    const pl=getPlant(parseInt(filter));
+    if(pl){
+      aiContextPlant=pl;
+      aiContextImgs=logs.filter(l=>l.plant==pl.id).flatMap(l=>l.imgs).slice(0,3);
+    }
+  }
+  nav('ai');
+  if(aiContextPlant) selectAIPlant(aiContextPlant.id);
+}
+
+// MINI CALENDAR
+function renderMiniCal(){
+  const label=new Date(calY,calM,1).toLocaleDateString('zh-CN',{year:'numeric',month:'long'});
+  document.getElementById('mini-cal-label').textContent=label;
+  const firstDay=new Date(calY,calM,1).getDay();
+  const daysInMonth=new Date(calY,calM+1,0).getDate();
+  let html=['日','一','二','三','四','五','六'].map(d=>`<div class="mini-day-hd">${d}</div>`).join('');
+  const prevDays=new Date(calY,calM,0).getDate();
+  for(let i=0;i<firstDay;i++){
+    html+=`<div class="mini-day other">${prevDays-firstDay+i+1}</div>`;
+  }
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=ds===todayStr, isSel=ds===selectedCalDate;
+    const hasTasks=tasks.some(t=>t.date===ds);
+    html+=`<div class="mini-day${isToday?' today':''}${hasTasks?' has-task':''}${isSel&&!isToday?' selected':''}" style="${isSel&&!isToday?'background:var(--g50);font-weight:500;':''}" onclick="selectCal('${ds}')">${d}</div>`;
+  }
+  document.getElementById('mini-cal').innerHTML=html;
+  renderCalDay();
+}
+function calNav(d){calM+=d;if(calM>11){calM=0;calY++}if(calM<0){calM=11;calY--}renderMiniCal()}
+function selectCal(ds){selectedCalDate=ds;renderMiniCal()}
+function renderCalDay(){
+  const lbl=document.getElementById('cal-selected-date-label');
+  if(lbl) lbl.textContent=fmtDate(selectedCalDate)+' 的任务';
+  const dayTasks=tasks.filter(t=>t.date===selectedCalDate);
+  const el=document.getElementById('cal-day-tasks');
+  if(!el)return;
+  el.innerHTML=dayTasks.map(t=>{
+    const m=TM[t.type],pl=getPlant(t.plant);
+    return`<div style="display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #f0f5e8;font-size:11px">
+      <span>${m.icon}</span><span style="flex:1">${m.label}${t.note?' · '+t.note:''} · ${pl?pl.name:''}</span>
+      <span style="color:${t.done?'var(--g400)':'var(--gr400)'}">${t.done?'✓完成':'待办'}</span>
+    </div>`;
+  }).join('')||'<div class="text-muted" style="text-align:center;padding:12px 0">当日无任务</div>';
+}
+
+// SEASON TIP
+function renderSeasonTip(){
+  const el=document.getElementById('season-tip-card');
+  if(!el)return;
+  const tips={spring:'春季气温回暖，植物进入生长旺季。增加浇水频率，开始施缓释肥，注意防虫。',summer:'夏季高温多湿，注意遮阳和通风。避免中午浇水，防止根部病害，适当追肥。',autumn:'秋季温度下降，减少浇水和施肥频率，为冬季休眠做准备。',winter:'冬季低温，大多植物进入休眠期。减少浇水，停止施肥，注意防寒保暖。'};
+  const seasonKey=['spring','summer','autumn','winter'][[2,5,8,11].findIndex((m,i)=>TODAY.getMonth()<[5,8,11,12][i])];
+  const sk=SEASON.name==='春季'?'spring':SEASON.name==='夏季'?'summer':SEASON.name==='秋季'?'autumn':'winter';
+  el.innerHTML=`<div class="card-bd"><div class="season-banner ${SEASON.cls}"><span class="season-icon">${SEASON.icon}</span><div><div class="season-name">${SEASON.name}养护提示</div><div class="season-desc">${tips[sk]}</div></div></div></div>`;
+}
+
+// PLANT DETAIL
+async function openDetail(id){
+  const p=getPlant(id);if(!p)return;
+  currentDetailPlantId=id;
+  // fill header
+  const pw=document.getElementById('detail-photo-wrap');
+  pw.innerHTML=p.photo?`<img src="${p.photo}" style="width:90px;height:90px;object-fit:cover">`:`<span style="font-size:46px">${plantEmoji(p)}</span>`;
+  document.getElementById('detail-name').textContent=p.name;
+  document.getElementById('detail-species').textContent=p.species||'未填写学名';
+  document.getElementById('detail-badges').innerHTML=`<span class="badge badge-green">🌱 ${p.date}种植</span><span class="badge ${p.status==='healthy'?'badge-green':p.status==='warning'?'badge-amber':'badge-red'}">${p.status==='healthy'?'状态良好':p.status==='warning'?'注意':'异常'}</span>`;
+  // reset tabs
+  document.querySelectorAll('.advice-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.advice-panel').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.advice-tab')[0].classList.add('active');
+  document.getElementById('tab-advice').classList.add('active');
+  // log tab
+  const plantLogs=logs.filter(l=>l.plant===id);
+  document.getElementById('detail-log-list').innerHTML=plantLogs.map(l=>{
+    const imgs=l.imgs&&l.imgs.length?'<div class="log-imgs">'+l.imgs.map(i=>`<img class="log-thumb" src="${i}" onclick="openLightbox('${i}')">`).join('')+'</div>':'';
+    return`<div class="log-entry"><div class="log-dot"></div><div class="log-date">${l.date}</div><div class="log-text">${l.text}</div>${imgs}</div>`;
+  }).join('')||'<div class="empty-state"><div class="empty-txt">暂无记录</div></div>';
+  // sliders
+  renderCareSliders(p);
+  // season banner
+  renderSeasonBannerDetail();
+  document.getElementById('modal-detail').classList.add('open');
+  // AI advice
+  generateAIAdvice(p);
+  generateScheduleAI(p);
+  // FAQ
+  generateFAQ(p);
+}
+
+function renderCareSliders(p){
+  const items=[
+    {key:'water',icon:'💧',label:'浇水周期',unit:'天'},
+    {key:'fertilize',icon:'🌿',label:'施肥周期',unit:'天'},
+    {key:'prune',icon:'✂️',label:'修剪周期',unit:'天'},
+    {key:'repot',icon:'🪴',label:'换盆周期',unit:'天'},
+  ];
+  document.getElementById('care-sliders').innerHTML=items.map(it=>{
+    const v=p.schedules?.[it.key]||7;
+    return`<div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-label">${it.icon} ${it.label}</span>
+        <span class="slider-val" id="sv-${it.key}">每 ${v} ${it.unit}</span>
+      </div>
+      <input type="range" class="care-range" min="1" max="${it.key==='repot'?730:it.key==='prune'?90:60}" value="${v}"
+        oninput="updateSlider(this,'${it.key}',${currentDetailPlantId})">
+      <div class="slider-sub" id="ss-${it.key}">${getSliderTip(it.key,v)}</div>
+    </div>`;
+  }).join('');
+}
+function updateSlider(el,key,plantId){
+  const v=parseInt(el.value),p=getPlant(plantId);
+  if(p){p.schedules=p.schedules||{};p.schedules[key]=v}
+  document.getElementById('sv-'+key).textContent='每 '+v+' 天';
+  document.getElementById('ss-'+key).textContent=getSliderTip(key,v);
+}
+function getSliderTip(key,v){
+  if(key==='water') return v<=2?'⚠️ 频繁，注意根部病害':v<=5?'✅ 适中，保持土壤微湿':'💡 较少，适合耐旱植物';
+  if(key==='fertilize') return v<=7?'⚠️ 较频繁，注意肥害':v<=21?'✅ 正常施肥周期':'💡 少量施肥，适合休眠期';
+  if(key==='prune') return v<=14?'✅ 勤修剪，促进分枝':v<=45?'✅ 适中':'💡 较少修剪';
+  return v<=90?'💡 频繁换盆，促进生长':v<=365?'✅ 正常换盆频率':'💡 较少换盆，适合大盆植物';
+}
+
+function renderSeasonBannerDetail(){
+  document.getElementById('season-banner-detail').innerHTML=`<div class="season-banner ${SEASON.cls}" style="margin-bottom:16px"><span class="season-icon">${SEASON.icon}</span><div><div class="season-name">当前：${SEASON.name}</div><div class="season-desc">养护计划已根据${SEASON.name}调整，可手动微调下方周期</div></div></div>`;
+}
+
+async function generateAIAdvice(p){
+  const el=document.getElementById('advice-content');
+  el.innerHTML='<div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>AI 正在分析 '+p.name+'...</div>';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:'你是专业植物养殖专家。请用中文给出简洁实用的种植建议，包含：生长环境、浇水要点、土壤需求、光照需求。格式：每条建议用"•"开头，不超过5条，每条一行，50字以内。',
+        messages:[{role:'user',content:`${SEASON.name}，${p.name}（${p.species||''}）的种植建议。状态：${p.status}。备注：${p.note||'无'}`}]})
+    });
+    const d=await res.json();
+    const txt=d.content?.[0]?.text||'暂无建议';
+    el.innerHTML=txt.split('\n').filter(l=>l.trim()).map(l=>`<div style="padding:4px 0;border-bottom:1px solid #f0f5e8;font-size:12px;line-height:1.7">${l}</div>`).join('');
+  }catch(e){el.innerHTML='<span style="color:var(--gr400);font-size:12px">• 选择适合'+p.name+'的排水良好土壤<br>• 保持适当光照，避免直射强光<br>• 根据季节调整浇水频率<br>• 定期检查叶片，及时处理异常</span>'}
+}
+
+async function generateScheduleAI(p){
+  const el=document.getElementById('schedule-ai-content');
+  el.innerHTML='<div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>生成'+SEASON.name+'建议...</div>';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
+        system:'你是植物养殖专家。给出简洁的季节性养护建议，每条用"•"开头，不超过4条，每条40字以内。',
+        messages:[{role:'user',content:`${SEASON.name}，${p.name}的养护重点和注意事项`}]})
+    });
+    const d=await res.json();
+    const txt=d.content?.[0]?.text||'';
+    el.innerHTML=txt.split('\n').filter(l=>l.trim()).map(l=>`<div style="padding:4px 0;border-bottom:1px solid #f0f5e8;font-size:12px;line-height:1.7">${l}</div>`).join('');
+  }catch(e){
+    const tips={spring:`• ${SEASON.icon} 春季是${p.name}生长旺季，增加浇水频率<br>• 开始追施氮肥，促进叶片生长<br>• 注意防治春季虫害`,summer:`• ${SEASON.icon} 夏季高温，注意遮阳和通风<br>• 早晚浇水，避免午间浇水伤根<br>• 适当控肥，防止徒长`,autumn:`• ${SEASON.icon} 秋季减少浇水和施肥频率<br>• 修剪多余枝条，储备养分<br>• 为冬季休眠做准备`,winter:`• ${SEASON.icon} 冬季减少浇水，停止施肥<br>• 保持室温10°C以上防冻害<br>• 适当补充光照`};
+    const sk=SEASON.name==='春季'?'spring':SEASON.name==='夏季'?'summer':SEASON.name==='秋季'?'autumn':'winter';
+    el.innerHTML=`<span style="font-size:12px;line-height:1.9">${tips[sk]}</span>`;
+  }
+}
+
+async function generateFAQ(p){
+  const el=document.getElementById('faq-list');
+  el.innerHTML='<div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>生成常见问题...</div>';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
+        system:'给出植物养殖常见问题及解答。严格返回JSON数组，格式：[{"q":"问题","a":"答案"}]，4个问题，答案30字以内，只返回JSON不要其他内容。',
+        messages:[{role:'user',content:`${p.name}（${p.species||''}）养殖常见问题`}]})
+    });
+    const d=await res.json();
+    const txt=d.content?.[0]?.text||'[]';
+    let faqs;
+    try{faqs=JSON.parse(txt.replace(/```json?|```/g,'').trim())}catch{faqs=[]}
+    if(!faqs.length) throw new Error('no faqs');
+    el.innerHTML=faqs.map((f,i)=>`
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">${f.q}<span class="faq-arrow">▼</span></div>
+        <div class="faq-a">${f.a}</div>
+      </div>`).join('');
+  }catch(e){
+    const defaults=[
+      {q:`${p.name}叶子发黄怎么办？`,a:'检查浇水频率，可能是积水或缺水。同时检查光照是否充足，必要时补充铁肥。'},
+      {q:'浇水过多的症状是什么？',a:'叶片下垂、发软，茎基部腐烂，土壤长期湿润，有异味。应立即减少浇水，改善排水。'},
+      {q:'如何判断需要换盆？',a:'根系从排水孔溢出、浇水后快速渗干、生长明显变慢，这些都是需要换盆的信号。'},
+      {q:'冬季如何养护？',a:'减少浇水频率，停止施肥，保持10°C以上室温，适当增加光照时间，避免冷风直吹。'},
+    ];
+    el.innerHTML=defaults.map(f=>`
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">${f.q}<span class="faq-arrow">▼</span></div>
+        <div class="faq-a">${f.a}</div>
+      </div>`).join('');
+  }
+}
+
+function toggleFaq(el){el.classList.toggle('open')}
+function switchTab(tabEl,panelId){
+  document.querySelectorAll('.advice-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.advice-panel').forEach(t=>t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// AI GARDEN
+function renderAIPlantSelector(){
+  const sel=document.getElementById('ai-plant-selector');
+  sel.innerHTML='<span style="font-size:10px;color:var(--gr400);margin-right:2px">快速选择植物：</span>';
+  plants.forEach(p=>{
+    const chip=document.createElement('div');
+    chip.className='ai-plant-chip'+(aiContextPlant&&aiContextPlant.id===p.id?' selected':'');
+    chip.id='chip-'+p.id;
+    chip.innerHTML=(p.photo?`<img class="ai-plant-chip-img" src="${p.photo}" alt="">`:`<span>${plantEmoji(p)}</span>`)+` ${p.name}`;
+    chip.onclick=()=>selectAIPlant(p.id);
+    sel.appendChild(chip);
+  });
+}
+
+function selectAIPlant(id){
+  document.querySelectorAll('.ai-plant-chip').forEach(c=>c.classList.remove('selected'));
+  const chip=document.getElementById('chip-'+id);
+  if(chip) chip.classList.add('selected');
+  const p=getPlant(id);
+  aiContextPlant=p;
+  aiContextImgs=logs.filter(l=>l.plant===id).flatMap(l=>l.imgs).slice(0,3);
+  if(p){
+    const pl=getPlant(id);
+    appendAIMsg('ai',`已选择 ${plantEmoji(pl)} ${p.name}！我现在了解到它的状态是「${p.status==='healthy'?'良好':p.status==='warning'?'需注意':'异常'}」，种植于 ${p.date}${p.note?'，备注：'+p.note:''}。有什么想问的关于它的问题？`);
+  }
+}
+
+function quickQ(q){document.getElementById('ai-input').value=q;sendAI()}
+
+async function sendAI(){
+  const inp=document.getElementById('ai-input');
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value='';
+  // user msg
+  const userEl=document.createElement('div');
+  userEl.className='msg msg-user';
+  userEl.innerHTML=`<div class="msg-bubble">${msg}</div><div class="msg-time">${new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  const msgs=document.getElementById('ai-msgs');
+  msgs.appendChild(userEl);msgs.scrollTop=msgs.scrollHeight;
+  // typing
+  const typId='typ-'+Date.now();
+  const typEl=document.createElement('div');typEl.className='msg msg-ai';typEl.id=typId;
+  typEl.innerHTML='<div class="msg-bubble"><div class="dot-pulse"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(typEl);msgs.scrollTop=msgs.scrollHeight;
+  const btn=document.getElementById('ai-send');btn.disabled=true;
+  // build system
+  let sys='你是专业植物养殖AI助手，用简洁中文回复，不超过150字。';
+  if(aiContextPlant){
+    const pl=aiContextPlant;
+    sys+=`用户正在咨询：${pl.name}（${pl.species||''}），状态：${pl.status}，种植日期：${pl.date}，备注：${pl.note||'无'}，当前季节：${SEASON.name}。`;
+    if(aiContextImgs.length) sys+=`用户已上传${aiContextImgs.length}张植物照片供参考。`;
+  }
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:[{role:'user',content:msg}]})
+    });
+    const data=await res.json();
+    document.getElementById(typId)?.remove();
+    appendAIMsg('ai',data.content?.[0]?.text||'请稍后重试');
+  }catch(e){
+    document.getElementById(typId)?.remove();
+    appendAIMsg('ai','连接出现问题，请稍后重试。你可以直接描述植物问题，我来帮你分析！');
+  }
+  btn.disabled=false;
+}
+
+function appendAIMsg(role,text){
+  const msgs=document.getElementById('ai-msgs');
+  const div=document.createElement('div');div.className='msg msg-'+role;
+  div.innerHTML=`<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ADD PLANT MODAL
+function openAddPlant(){
+  newPlantPhoto=null;
+  document.getElementById('np-date').value=todayStr;
+  document.getElementById('np-name').value='';
+  document.getElementById('np-species').value='';
+  document.getElementById('np-note').value='';
+  document.getElementById('photo-drop-content').innerHTML='<div class="photo-icon">📷</div><div class="photo-hint">点击上传真实照片</div>';
+  document.getElementById('modal-plant').classList.add('open');
+}
+function handlePlantPhoto(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    newPlantPhoto=ev.target.result;
+    document.getElementById('photo-drop-content').innerHTML=`<img class="photo-preview" src="${newPlantPhoto}"><div class="photo-hint" style="margin-top:6px">点击更换照片</div>`;
+  };
+  r.readAsDataURL(f);
+}
+function submitPlant(){
+  const name=document.getElementById('np-name').value.trim();
+  if(!name){alert('请输入植物名称');return}
+  const newP={id:Date.now(),name,species:document.getElementById('np-species').value,photo:newPlantPhoto,date:document.getElementById('np-date').value,status:document.getElementById('np-status').value,note:document.getElementById('np-note').value,tags:['新种植'],schedules:{water:3,fertilize:14,prune:30,repot:365}};
+  plants.push(newP);
+  closeModal('modal-plant');
+  renderPlants();renderOverview();renderAIPlantSelector();populateLogSelects();
+  // Auto open detail with AI advice
+  setTimeout(()=>openDetail(newP.id),300);
+}
+
+// ADD TASK MODAL
+function openAddTask(){
+  document.getElementById('nt-date').value=todayStr;
+  document.getElementById('nt-note').value='';
+  document.getElementById('nt-plant').innerHTML=plants.map(p=>`<option value="${p.id}">${plantEmoji(p)} ${p.name}</option>`).join('');
+  document.getElementById('modal-task').classList.add('open');
+}
+function submitTask(){
+  const type=document.getElementById('nt-type').value;
+  const plant=parseInt(document.getElementById('nt-plant').value);
+  const date=document.getElementById('nt-date').value;
+  tasks.push({id:Date.now(),type,plant,date,done:false,note:document.getElementById('nt-note').value});
+  closeModal('modal-task');renderTasks();renderMiniCal();renderCalDay();renderOverview();
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open')}));
+
+// LIGHTBOX
+function openLightbox(src){
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+// INIT
+renderOverview();
+renderMiniCal();
+renderSeasonTip();
+populateLogSelects();
+</script>

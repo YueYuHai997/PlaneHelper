@@ -1,0 +1,126 @@
+[
+  {
+    "id": 101,
+    "type": "water",
+    "plant": 1,
+    "date": "2026-04-28",
+    "done": true,
+    "note": "深度浇水"
+  },
+  {
+    "id": 102,
+    "type": "fertilize",
+    "plant": 2,
+    "date": "2026-04-28",
+    "done": true,
+    "note": "液肥稀释"
+  },
+  {
+    "id": 103,
+    "type": "prune",
+    "plant": 3,
+    "date": "2026-04-29",
+    "done": true,
+    "note": "修剪黄叶"
+  },
+  {
+    "id": 1777424006890,
+    "type": "water",
+    "plant": 1777424006886,
+    "date": "2026-05-02",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777424006890,
+    "type": "fertilize",
+    "plant": 1777424006886,
+    "date": "2026-05-13",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777424006890,
+    "type": "prune",
+    "plant": 1777424006886,
+    "date": "2026-05-29",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777424006890,
+    "type": "repot",
+    "plant": 1777424006886,
+    "date": "2027-04-29",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777427014921,
+    "type": "fertilize",
+    "plant": 1777423786012,
+    "date": "2026-06-19",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777430429102,
+    "type": "water",
+    "plant": 1777430429098,
+    "date": "2026-05-02",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777430429102,
+    "type": "fertilize",
+    "plant": 1777430429098,
+    "date": "2026-05-13",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777430429102,
+    "type": "prune",
+    "plant": 1777430429098,
+    "date": "2026-05-29",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777430429102,
+    "type": "repot",
+    "plant": 1777430429098,
+    "date": "2027-04-29",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  },
+  {
+    "id": 1777446923611,
+    "type": "water",
+    "plant": 1777365935574,
+    "date": "2026-05-01",
+    "done": false,
+    "note": "",
+    "source": "auto",
+    "completedAt": ""
+  }
+]
